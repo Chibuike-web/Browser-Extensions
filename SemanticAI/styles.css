@@ -12,6 +12,7 @@ body {
 	padding: 20px;
 	background-color: #f5f7fa;
 	color: #333;
+	border-radius: 32px;
 }
 
 form {
