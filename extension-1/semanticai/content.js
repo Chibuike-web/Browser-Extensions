@@ -1,8 +1,6 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	console.log("Received in content script:", message);
 
-	const { heading, paragraph } = message;
-
 	const noAltImages = [];
 
 	const images = document.querySelectorAll("img");
