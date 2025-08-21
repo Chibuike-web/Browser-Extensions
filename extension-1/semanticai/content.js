@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			if (res.error) {
 				console.log(res.error, res.details);
 			} else {
-				console.log(res.data);
+				attachAltTexts(res.data);
 			}
 		});
 	}
@@ -28,4 +28,15 @@ function scanImages() {
 	const noAltImagesSrc = noAltImages.map((i) => i.src);
 
 	return noAltImagesSrc;
+}
+
+function attachAltTexts(results) {
+	results.forEach((item) => {
+		const imgs = document.querySelectorAll(`img[src="${item.src}"]`);
+		imgs.forEach((img) => {
+			img.setAttribute("alt", item.alt);
+			console.log(`✅ Alt set: ${item.alt} → ${item.src}`);
+		});
+	});
+	const allImages = document.querySelectorAll("img");
 }

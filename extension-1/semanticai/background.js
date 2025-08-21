@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			like "Image of" or "Picture of." - If text appears in the image, include it. - If the image is
 			decorative (no meaningful content), return "decorative". - Tailor description depending on
 			type (e.g., product → mention brand/color; chart → describe key trend). Now generate alt text
-			for each image below. Return JSON as: [ { "src": "<image_url
+			for each image below. Return array as: [ { "src": "<image_url
 				>", "alt": "<alt_text>" } ] Images: ${srcsInText} </alt_text></image_url
 			>
 		`;

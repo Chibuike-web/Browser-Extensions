@@ -39,7 +39,14 @@ app.post("/gemini-api", async (req, res) => {
 			return res.status(500).json({ error: "Gemini API call failed" });
 		}
 		const data = await geminiRes.json();
-		const altText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No alt text";
+		const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "No alt text";
+		const cleaned = text.replace(/```json|```/g, "").trim();
+		let altText = [];
+		try {
+			altText = JSON.parse(cleaned);
+		} catch (err) {
+			console.error("Failed to parse Gemini JSON:", err, cleaned);
+		}
 		console.log("Gemini response:", altText);
 		res.status(200).json({ altText });
 	} catch (err) {
