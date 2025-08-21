@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>SemanticAI</title>
+		<meta charset="UTF-8" />
+		<title>Semantic AI</title>
 		<link rel="stylesheet" href="styles.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+		/>
 	</head>
 	<body>
-		<form id="replace-form">
-			<input type="text" id="heading" placeholder="New heading" />
-			<input type="text" id="paragraph" placeholder="New paragraph" />
-			<button type="submit">Replace</button>
-		</form>
+		<header class="heading">
+			<h1 class="title">Semantic AI</h1>
+			<i
+				class="fa-solid fa-circle-info info-icon"
+				title="Scans images on this page for missing alt text"
+			></i>
+		</header>
+		<main id="wrapper">
+			<div class="btn-container">
+				<button id="scan-btn">Scan Page</button>
+				<button id="add-alt-btn">Add alt text</button>
+			</div>
 
+			<div id="result-area" class="result-area">
+				<p class="placeholder">No scan yet. Click "Scan Page" to check images.</p>
+			</div>
+		</main>
 		<script src="popup.js"></script>
 	</body>
 </html>

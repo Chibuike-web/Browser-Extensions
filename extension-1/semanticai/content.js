@@ -1,26 +1,31 @@
+// @ts-check
+/// <reference types="chrome"/>
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	console.log("Received in content script:", message);
+	if (message.action === "scan images") {
+		const noAltImagesSrc = scanImages();
+		sendResponse({ images: noAltImagesSrc });
+		chrome.runtime.sendMessage({ imageSrcs: noAltImagesSrc }, (res) => {
+			if (res.error) {
+				console.log(res.error, res.details);
+			} else {
+				console.log(res.data);
+			}
+		});
+	}
+});
 
+function scanImages() {
+	const allImages = document.querySelectorAll("img");
 	const noAltImages = [];
-
-	const images = document.querySelectorAll("img");
-	images.forEach((image) => {
-		if (image.alt === "") {
-			console.log("No alt");
-			noAltImages.push(image.src);
-		} else {
-			console.log("There is alt");
+	allImages.forEach((img) => {
+		if (!img.hasAttribute("alt") || img.alt.trim() === "") {
+			noAltImages.push(img);
 		}
 	});
 
-	if (noAltImages.length === 0) return;
-	const prompt = `Generate descriptive alt text for the following image URLS: \n\n${noAltImages
-		.map((url) => `-${url}`)
-		.join("\n")}`;
+	const noAltImagesSrc = noAltImages.map((i) => i.src);
 
-	chrome.runtime.sendMessage({
-		action: "callGeminiAPI",
-		prompt: prompt,
-		images: noAltImages,
-	});
-});
+	return noAltImagesSrc;
+}
