@@ -1,12 +1,15 @@
-// @ts-check
 /// <reference types="chrome"/>
+
+chrome.action.onClicked.addListener(() => {
+	chrome.tabs.create({ url: chrome.runtime.getURL("popup.html") });
+});
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	console.log("Extension installed");
 
 	if (message.imageSrcs) {
 		const srcs = message.imageSrcs;
-		const srcsInText = srcs.join("\n"); // better than split/join since imageSrcs is already an array
+		const srcsInText = srcs.join("\n");
 
 		const prompt = `
 			You are an assistant generating accurate and accessible image alt text for web accessibility
@@ -25,6 +28,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
 });
 
+/**
+ * @param {string} prompt
+ * @param {SendResponse} sendResponse
+ */
 const handleGeminiAPI = async (prompt, sendResponse) => {
 	try {
 		const res = await fetch("http://localhost:7248/gemini-api", {
@@ -39,12 +46,13 @@ const handleGeminiAPI = async (prompt, sendResponse) => {
 			sendResponse({ error: "API call failed", details: errMsg });
 			return;
 		}
+		/** @type {GeminiAPIResponse} */
 		const data = await res.json();
 		console.log("Gemini response:", data.altText);
 
 		sendResponse({ success: true, data: data.altText });
 	} catch (err) {
 		console.error("Error calling Gemini API:", err);
-		sendResponse({ error: err.message });
+		sendResponse({ error: /** @type {Error} */ (err).message });
 	}
 };

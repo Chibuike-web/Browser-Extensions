@@ -1,15 +1,15 @@
 * {
-	font-family: "Inter", "Segoe UI", sans-serif;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
 body {
-	width: 400px;
-	height: 400px;
+	font-family: "Inter", sans-serif;
+	width: 600px;
+	height: 700px;
 	padding: 20px;
-	background-color: #f5f7fa;
+	background-color: white;
 	color: #333;
 	border-radius: 16px;
 }
@@ -18,7 +18,6 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 16px;
 }
 
 .title {
@@ -36,10 +35,15 @@ body {
 	color: #007bff;
 }
 
+#wrapper {
+	margin-top: 4rem;
+}
+
 .btn-container {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 32px;
+	gap: 12px;
 }
 
 #scan-btn {
@@ -115,4 +119,23 @@ body {
 		object-fit: cover;
 		object-position: top;
 	}
+}
+
+.status-message {
+	font-size: 16px;
+	width: 100%;
+}
+.status-message.success {
+	color: green;
+}
+.status-message.error {
+	color: red;
+}
+.status-message.warning {
+	color: orange;
+}
+
+button:focus-visible {
+	outline: 3px solid #2563eb;
+	outline-offset: 3px;
 }
